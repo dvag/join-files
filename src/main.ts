@@ -1,19 +1,25 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from "@actions/core";
+import { readFile, writeFile } from "fs/promises";
+import { glob } from "glob";
+import { promisify } from "util";
 
 async function run(): Promise<void> {
+  const inputGlob = core.getInput("input-glob", { required: true });
+  const outputFile = core.getInput("output-file", { required: true });
+  const asyncGlob = promisify(glob);
+
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const filesToJoin = await asyncGlob(inputGlob);
+    const fileContents = await Promise.all(
+      filesToJoin.map(async (file) => {
+        return await readFile(file, "utf-8");
+      })
+    );
+    await writeFile(outputFile, fileContents.join("\n"));
+    core.setOutput("file", outputFile);
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error.message);
   }
 }
 
-run()
+run();

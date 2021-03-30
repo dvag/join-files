@@ -1,11 +1,15 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: "Join YAML Files"
+description: "An action to join yaml files together"
+author: "Timm Hirsens"
+
 inputs:
-  milliseconds: # change this
+  input-glob:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: "the glob of files to join together"
+outputs:
+  file:
+    description: "the joined file"
+
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
