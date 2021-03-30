@@ -6,6 +6,9 @@ inputs:
   input-glob:
     required: true
     description: "the glob of files to join together"
+  output-file:
+    required: true
+    description: "where to store the joined fileno  "
 outputs:
   file:
     description: "the joined file"

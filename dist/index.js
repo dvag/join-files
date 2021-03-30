@@ -37,7 +37,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
-const promises_1 = __webpack_require__(225);
+const fs = __importStar(__webpack_require__(747));
 const glob_1 = __webpack_require__(957);
 const util_1 = __webpack_require__(669);
 function run() {
@@ -48,9 +48,9 @@ function run() {
         try {
             const filesToJoin = yield asyncGlob(inputGlob);
             const fileContents = yield Promise.all(filesToJoin.map((file) => __awaiter(this, void 0, void 0, function* () {
-                return yield promises_1.readFile(file, "utf-8");
+                return yield fs.promises.readFile(file, "utf-8");
             })));
-            yield promises_1.writeFile(outputFile, fileContents.join("\n"));
+            yield fs.promises.writeFile(outputFile, fileContents.join("\n"));
             core.setOutput("file", outputFile);
         }
         catch (error) {
@@ -3850,14 +3850,6 @@ module.exports = require("events");;
 
 "use strict";
 module.exports = require("fs");;
-
-/***/ }),
-
-/***/ 225:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs/promises");;
 
 /***/ }),
 
